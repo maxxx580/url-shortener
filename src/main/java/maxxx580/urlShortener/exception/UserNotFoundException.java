@@ -1,5 +1,6 @@
 package maxxx580.urlShortener.exception;
 
+@SuppressWarnings("serial")
 public class UserNotFoundException extends Exception {
 
 	public UserNotFoundException(String message) {
