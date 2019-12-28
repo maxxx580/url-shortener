@@ -2,11 +2,16 @@ package maxxx580.urlShortener.model;
 
 import java.util.Date;
 
+import javax.validation.constraints.Past;
+import javax.validation.constraints.Size;
+
 public class User {
 	
 	private int id;
+	@Size(min=5, message="User name should be at least 5 characters")
 	private String userName;
 	private String token;
+	@Past
 	private Date creationDate;
 	
 	public User(int id, String userName, String token, Date creationDate) {
