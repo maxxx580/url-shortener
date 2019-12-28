@@ -2,6 +2,7 @@ package maxxx580.urlShortener.daoservice;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 import org.springframework.stereotype.Component;
@@ -31,5 +32,17 @@ public class UserDaoService {
 		User createdUser = new User(++userCount, user.getUserName(), "Token Place holder", new Date());
 		users.add(createdUser);
 		return createdUser;
+	}
+	
+	public User delete(int id) {
+		Iterator<User> iterator = users.iterator();
+		while (iterator.hasNext()) {
+			User user = iterator.next();
+			if (user.getId() == id) {
+				iterator.remove();
+				return user;
+			}
+		}
+		return null;
 	}
 }

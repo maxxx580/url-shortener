@@ -7,6 +7,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,12 +25,12 @@ public class UserController {
 	
 	@Autowired
 	private UserDaoService userDaoService;
-	
+
 	@GetMapping(path = "/users")
 	public List<User> find() {
 		return userDaoService.find();
 	}
-	
+
 	@GetMapping(path = "/users/{id}")
 	public User find(@PathVariable int id) throws UserNotFoundException {
 		User userFound = userDaoService.find(id);
@@ -38,7 +39,7 @@ public class UserController {
 		}
 		return userFound;
 	}
-	
+
 	@PostMapping(path = "/users")
 	public ResponseEntity<Object> createUser(@Valid @RequestBody User user) {
 		User savedUser = userDaoService.save(user);
@@ -47,6 +48,15 @@ public class UserController {
 				.path("/{id}")
 				.buildAndExpand(savedUser.getId()).toUri();
 		return ResponseEntity.created(location).build(); 
+	}
+
+	@DeleteMapping(path = "/users/{id}")
+	public void deleteUser(@PathVariable int id) throws UserNotFoundException {
+		User userDeleted = userDaoService.delete(id);
+		if (userDeleted == null) {
+			throw new UserNotFoundException("User " + id + " not found"); 
+		}
+		return;
 	}
 
 }
